@@ -45,5 +45,6 @@ for %%p in (%processes%) do (
     if !errorlevel! equ 0 (
         echo %d%%%%p Is Recording. 
         pause
+        exit
     )
 )
