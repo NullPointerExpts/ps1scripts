@@ -61,7 +61,10 @@ foreach ($path in $paths) {
 	
 	Try {
  		$url = Get-Content -Path $path + ":Zone.Identifier"
- 	} Catch { $url = "None" }
+ 	} Catch { 
+  		Write-Host $path + " ERROR"
+  		$url = "None" 
+    	}
        
         $fileDetails = New-Object PSObject
         $fileDetails | Add-Member Noteproperty Name $fileName
