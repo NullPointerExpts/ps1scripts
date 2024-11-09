@@ -57,13 +57,19 @@ foreach ($path in $paths) {
     Try {
         $fileName = Split-Path $path -Leaf
         $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
-        $fileDescription = (Get-Item $path).VersionInfo.FileDescription
+        $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
 
+        if (Test-Path "$path:Zone.Identifier") {
+            $zoneData = Get-Content -Path $zoneIdentifierPath
+            $urlLine = $zoneData | Where-Object { $_ -like "URL=" }
+        }
+        
         $fileDetails = New-Object PSObject
         $fileDetails | Add-Member Noteproperty Name $fileName
         $fileDetails | Add-Member Noteproperty Path $path
         $fileDetails | Add-Member Noteproperty SignatureStatus $signatureStatus
         $fileDetails | Add-Member Noteproperty FileDescription $fileDescription
+        $fileDetails | Add-Member Noteproperty URL $urlLine
 
         $results += $fileDetails
     } Catch {
