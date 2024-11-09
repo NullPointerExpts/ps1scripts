@@ -57,11 +57,13 @@ foreach ($path in $paths) {
     Try {
         $fileName = Split-Path $path -Leaf
         $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
+        $fileDescription = (Get-Item $path).VersionInfo.FileDescription
 
         $fileDetails = New-Object PSObject
         $fileDetails | Add-Member Noteproperty Name $fileName
         $fileDetails | Add-Member Noteproperty Path $path
         $fileDetails | Add-Member Noteproperty SignatureStatus $signatureStatus
+        $fileDetails | Add-Member Noteproperty FileDescription $fileDescription
 
         $results += $fileDetails
     } Catch {
