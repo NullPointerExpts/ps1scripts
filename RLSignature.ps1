@@ -58,6 +58,7 @@ foreach ($path in $paths) {
         $fileName = Split-Path $path -Leaf
         $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
         $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
+	
 	Try {
  		$url = Get-Content -Path $path + ":Zone.Identifier"
  	} Catch { $url = "None" }
