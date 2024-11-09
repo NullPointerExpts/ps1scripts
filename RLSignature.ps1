@@ -58,7 +58,10 @@ foreach ($path in $paths) {
         $fileName = Split-Path $path -Leaf
         $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
         $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
-        $urlLine = Get-Content "$path" + ":Zone.Identifier" | Select-String -Pattern "HostURL="
+
+        
+        if (Test-Path "$path:Zone.Identifier")
+          $urlLine = Get-Content "$path:Zone.Identifier" | Select-String -Pattern "HostURL="
 
         
         $fileDetails = New-Object PSObject
