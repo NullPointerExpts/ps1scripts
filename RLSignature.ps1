@@ -58,19 +58,19 @@ foreach ($path in $paths) {
         $fileName = Split-Path $path -Leaf
         $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
         $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
-        
-        Try {
-            $urlLine = Get-Content -Path $path - Stream "Zone.Identifier" | Select-String -Pattern "HostURL=" 
-        } Catch {
-            $urlLine = "None"
-        }
-        
+
+        Try{$Stream = (Get-Item -literalpath $path -Stream *).stream|out-string|ConvertFrom-String -PropertyNames St1, St2, St3, Stl4, Stl5}
+		    Catch{$Stream = ""}
+
+        Try{$Zone = Get-Content -Stream Zone.Identifier -literalpath $path -ErrorAction Ignore|out-string|ConvertFrom-String -PropertyNames Z1, Z2, Z3, Z4, Z5}
+		    Catch{$Zone = ""}
+       
         $fileDetails = New-Object PSObject
         $fileDetails | Add-Member Noteproperty Name $fileName
         $fileDetails | Add-Member Noteproperty Path $path
         $fileDetails | Add-Member Noteproperty SignatureStatus $signatureStatus
         $fileDetails | Add-Member Noteproperty FileDescription $fileDescription
-        $fileDetails | Add-Member Noteproperty URL $urlLine
+        $fileDetails | Add-Member Noteproperty URL $Zone.Z2
         
         $results += $fileDetails
     } Catch {
