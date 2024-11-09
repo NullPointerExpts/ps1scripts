@@ -1,5 +1,4 @@
 ﻿Clear-Host
-$ErrorActionPreference = "SilentlyContinue"
 
 Write-Host @"
   ██████╗ ███████╗██████╗     ██╗      ██████╗ ████████╗██╗   ██╗███████╗         
@@ -42,7 +41,7 @@ if(-Not(Test-Path -Path $pathsFilePath)){
     Exit
 }
 
-$paths = Get-Content "paths.txt"
+$paths = Get-Content "paths.txt" -Encoding UTF8
 $stopwatch = [Diagnostics.Stopwatch]::StartNew()
 
 $results = @()
