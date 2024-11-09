@@ -61,7 +61,9 @@ foreach ($path in $paths) {
         $zoneIdentifierPath = "$path:Zone.Identifier"
         
         if (Test-Path $zoneIdentifierPath) {
+            Write-Host $zoneIdentifierPath
             $urlLine = Get-Content $zoneIdentifierPath | Select-String -Pattern "HostURL="
+            Write-Host $urlLine
         }
         
         $fileDetails = New-Object PSObject
