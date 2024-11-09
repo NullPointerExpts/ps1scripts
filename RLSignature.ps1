@@ -60,9 +60,9 @@ foreach ($path in $paths) {
         $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
 
         
-        if (Test-Path "$path:Zone.Identifier")
+        if (Test-Path "$path:Zone.Identifier") {
           $urlLine = Get-Content "$path:Zone.Identifier" | Select-String -Pattern "HostURL="
-
+        }
         
         $fileDetails = New-Object PSObject
         $fileDetails | Add-Member Noteproperty Name $fileName
