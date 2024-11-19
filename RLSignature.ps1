@@ -56,13 +56,18 @@ foreach ($path in $paths) {
 
     Try {
         $fileName = Split-Path $path -Leaf
-        $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
-        $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
+        $signatureStatus = ""
+        $fileDescription = ""
+        $fileSize = ""
         $isFileExist = "False"
 
         
         if (Test-Path -Path $path -PathType leaf) {
             $isFileExist = "True"
+            $fileSize = (Get-Item $path).Length
+            $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
+            $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
+            
         } else {
             if (Test-Path -Path $path) {
                 $isFileExist = "Path"
