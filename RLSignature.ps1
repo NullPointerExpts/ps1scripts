@@ -55,21 +55,22 @@ foreach ($path in $paths) {
     $count++
 
     Try {
-        $fileName = Split-Path $path -Leaf
+        $filtredpath = $path.Trim()
+        $fileName = Split-Path $filtredpath -Leaf
         $signatureStatus = ""
         $fileDescription = ""
         $fileSize = ""
         $isFileExist = "False"
 
         
-        if (Test-Path -Path $path -PathType leaf) {
+        if (Test-Path -Path $filtredpath -PathType leaf) {
             $isFileExist = "True"
-            $fileSize = (Get-Item $path).Length
-            $signatureStatus = (Get-AuthenticodeSignature $path 2>$null).Status
-            $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
+            $fileSize = (Get-Item $filtredpath).Length
+            $signatureStatus = (Get-AuthenticodeSignature $filtredpath 2>$null).Status
+            $fileDescription = (Get-Item "$filtredpath").VersionInfo.FileDescription
             
         } else {
-            if (Test-Path -Path $path) {
+            if (Test-Path -Path $filtredpath) {
                 $isFileExist = "Path"
             } else {
                 $isFileExist = "False"
@@ -80,10 +81,11 @@ foreach ($path in $paths) {
        
         $fileDetails = New-Object PSObject
         $fileDetails | Add-Member Noteproperty Name $fileName
-        $fileDetails | Add-Member Noteproperty Path $path
+        $fileDetails | Add-Member Noteproperty Path $filtredpath
         $fileDetails | Add-Member Noteproperty SignatureStatus $signatureStatus
         $fileDetails | Add-Member Noteproperty FileDescription $fileDescription
         $fileDetails | Add-Member Noteproperty IsFileExist $isFileExist
+        $fileDetails | Add-Member Noteproperty FileSize $fileSize
         
         $results += $fileDetails
     } Catch {
