@@ -60,10 +60,15 @@ foreach ($path in $paths) {
         $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
         $isFileExist = "False"
 
+        
         if (Test-Path -Path $path -PathType leaf) {
             $isFileExist = "True"
         } else {
-            $isFileExist = "False"
+            if (Test-Path -Path $path) {
+                $isFileExist = "Path"
+            } else {
+                $isFileExist = "False"
+            }
         }
         
     
