@@ -66,9 +66,6 @@ foreach ($path in $paths) {
             } else {
                 $isFileExist = "True"
             }
-            
-            
-              $isFileExist = "True"
         }
     
        
