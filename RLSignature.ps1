@@ -61,6 +61,13 @@ foreach ($path in $paths) {
         $isFileExist = "False"
 
         if (Test-Path $path) {
+            if ($path.PSIsContainer) {
+                $isFileExist = "False"
+            } else {
+                $isFileExist = "True"
+            }
+            
+            
               $isFileExist = "True"
         }
     
