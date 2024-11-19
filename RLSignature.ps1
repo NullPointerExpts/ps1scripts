@@ -60,13 +60,12 @@ foreach ($path in $paths) {
         $fileDescription = (Get-Item "$path").VersionInfo.FileDescription
         $isFileExist = "False"
 
-        if (Test-Path $path) {
-            if ($path.PSIsContainer) {
+        if (Test-Path -Path $path -PathType leaf) {
                 $isFileExist = "False"
-            } else {
+        } else {
                 $isFileExist = "True"
-            }
         }
+        
     
        
         $fileDetails = New-Object PSObject
