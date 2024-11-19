@@ -61,9 +61,9 @@ foreach ($path in $paths) {
         $isFileExist = "False"
 
         if (Test-Path -Path $path -PathType leaf) {
-                $isFileExist = "False"
+            $isFileExist = "True"
         } else {
-                $isFileExist = "True"
+            $isFileExist = "False"
         }
         
     
