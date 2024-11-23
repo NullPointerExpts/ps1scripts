@@ -1,4 +1,4 @@
-﻿Clear-Host
+﻿Clear-Host 
 
 $minecraftpid = Read-Host "Enter Minecraft "
 $process = Get-Process -Id $minecraftpid | ForEach-Object { $_.Modules } | Where-Object { $_.ModuleName -like "*.dll" } | Select-Object FileName -ErrorAction SilentlyContinue
