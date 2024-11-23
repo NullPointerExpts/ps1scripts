@@ -15,7 +15,7 @@ if ($serviceStatus) {
     if ($serviceStatus.Status -eq 'Running') {
             
         $serviceProcess = Get-WmiObject Win32_Service | Where-Object { $_.Name -eq "DPS" }
-        Write-Host "Служба DPS активна. PID: $($serviceProcess.ProcessId)"
+        Write-Host "Service DPS enabled. PID: $($serviceProcess.ProcessId)"
 
         $output = .\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String
         
@@ -24,7 +24,7 @@ if ($serviceStatus) {
                     $parts = $string -split ":::" 
                     
                     if ($out.Contains($parts[1])) {
-                        Write-Host "[DPS] Найден запуск "$parts[0] -ForegroundColor Red
+                        Write-Host "[DPS] Detected "$parts[0] -ForegroundColor Red
                     }
                }
         }
@@ -32,11 +32,11 @@ if ($serviceStatus) {
         
 
     } else {
-        Write-Host "Служба 'DPS' не запущена." -ForegroundColor Yellow
+        Write-Host "Service DPS stopped" -ForegroundColor Yellow
     }
 
 } else {
-    Write-Host "Служба 'DPS' не запущена." -ForegroundColor Yellow
+    Write-Host "Service DPS stopped" -ForegroundColor Yellow
 }
 
 
@@ -51,7 +51,7 @@ if ($serviceStatus) {
     if ($serviceStatus.Status -eq 'Running') {
             
         $serviceProcess = Get-WmiObject Win32_Service | Where-Object { $_.Name -eq "PcaSvc" }
-        Write-Host "Служба DPS активна. PID: $($serviceProcess.ProcessId)"
+        Write-Host "Service PcaSvc enabled. PID: $($serviceProcess.ProcessId)"
 
         $output = .\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String
         
@@ -60,7 +60,7 @@ if ($serviceStatus) {
                     $parts = $string -split ":::" 
                     
                     if ($out.Contains($parts[1])) {
-                        Write-Host "[PCA] Найден запуск "$parts[0] -ForegroundColor Red
+                        Write-Host "[PCA] Detected "$parts[0] -ForegroundColor Red
                     }
                }
         }
@@ -68,11 +68,11 @@ if ($serviceStatus) {
         
 
     } else {
-        Write-Host "Служба 'PcaSvc' не запущена." -ForegroundColor Yellow
+        Write-Host "Service PcaSvc stopped" -ForegroundColor Yellow
     }
 
 } else {
-    Write-Host "Служба 'PcaSvc' не запущена." -ForegroundColor Yellow
+    Write-Host "Service PcaSvc stopped" -ForegroundColor Yellow
 }
     
 
