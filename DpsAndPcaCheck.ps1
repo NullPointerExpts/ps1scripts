@@ -19,11 +19,6 @@ if ($serviceStatus) {
         $output = (.\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String) -split "`n"
         
         foreach($out in $output) {
-               $filter = '^\\device\\harddiskvolume((?!.*\.(exe|dll)).)*\..*$'
-               if ([System.Text.RegularExpressions.Regex]::IsMatch($out, $filter)) {
-                    Write-Host "[DPS] Detected modified extension: "$out -ForegroundColor Yellow
-               }
-
                foreach($string in $dps) {
                     $parts = $string -split ":::" 
                      
@@ -59,11 +54,6 @@ if ($serviceStatus) {
         $output = (.\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String) -split "`n"
         
         foreach($out in $output) {
-               $filter = '^\\device\\harddiskvolume((?!.*\.(exe|dll)).)*\..*$'
-               if ([System.Text.RegularExpressions.Regex]::IsMatch($out, $filter)) {
-                    Write-Host "[DiagTrack] Detected modified extension: "$out -ForegroundColor Yellow
-               }
-
                foreach($string in $dps) {
                     $parts = $string -split ":::" 
                      
