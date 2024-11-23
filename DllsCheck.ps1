@@ -13,8 +13,7 @@ foreach($dll in $process) {
             
 
             if ($signature.Status -ne 'Valid') {
-                $size = $dll.Length
-                Write-Host "Suspicious DLL: $size b    $($dll.FileName)"
+                Write-Host "Suspicious DLL: $($dll.Length)b    $($dll.FileName)"
             }
     }
 }
