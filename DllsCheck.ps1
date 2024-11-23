@@ -14,7 +14,7 @@ foreach($dll in $process) {
             
             if ($signature.Status -ne 'Valid') {
                 $fileSize = (Get-Item "$($dll.FileName)").Length
-                Write-Host "Suspicious DLL: $($fileSize)    $($dll.FileName)"
+                Write-Host "Suspicious DLL: $($fileSize)    $($dll.FileName)" -ForegroundColor Yellow
             }
     }
 }
