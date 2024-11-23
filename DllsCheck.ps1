@@ -11,8 +11,9 @@ foreach($dll in $process) {
 
             $signature = Get-AuthenticodeSignature $dll.FileName
             
-
+            
             if ($signature.Status -ne 'Valid') {
+                $fileSize = (Get-Item "$($dll.FileName)").Length
                 Write-Host "Suspicious DLL: $($dll.Length)b    $($dll.FileName)"
             }
     }
