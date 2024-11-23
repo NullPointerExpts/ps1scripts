@@ -1,6 +1,6 @@
 cls
 
-$minecraftpid = Read-Host "Enter Minecraft "
+$minecraftpid = Read-Host "Enter Minecraft PID: "
 $process = Get-Process -Id $minecraftpid | ForEach-Object { $_.Modules } | Where-Object { $_.ModuleName -like "*.dll" } | Select-Object FileName -ErrorAction SilentlyContinue
 
 foreach($dll in $process) {
