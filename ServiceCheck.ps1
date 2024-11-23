@@ -19,7 +19,7 @@ $array = @()
 foreach($out in $output) {
     $line = $out.Trim()
     if ([System.Text.RegularExpressions.Regex]::IsMatch($line, $filter)) {
-            $path = $line.Replace("file:///", "")
+            $path = $line.Replace("file:///", "").Replace("%20", " ")
             if (Test-Path $path) {
                 $signature = Get-AuthenticodeSignature $path
                     
