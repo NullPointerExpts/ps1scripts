@@ -7,7 +7,6 @@ $pca = @("CortexClient:::0x16ed000","TroxillClient:::0x1b44000","PhasmaClient:::
 Invoke-WebRequest -Uri "https://github.com/ZaikoARG/xxstrings/releases/download/1.0.0/xxstrings64.exe" -OutFile "xxstrings64.exe"
 
 
-
 $serviceStatus = Get-Service -Name "DPS" -ErrorAction SilentlyContinue
 
 if ($serviceStatus) {
@@ -17,14 +16,21 @@ if ($serviceStatus) {
         $serviceProcess = Get-WmiObject Win32_Service | Where-Object { $_.Name -eq "DPS" }
         Write-Host "Service DPS enabled. PID: $($serviceProcess.ProcessId)"
 
-        $output = .\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String
+        $output = (.\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String) -split "`n"
         
         foreach($out in $output) {
+               $filter = '^\\device\\harddiskvolume((?!.*\.(exe|dll)).)*\..*$'
+               if ([System.Text.RegularExpressions.Regex]::IsMatch($out, $filter)) {
+                    Write-Host "[DPS] Detected modified extension: "$out -ForegroundColor Yellow
+               }
+
                foreach($string in $dps) {
                     $parts = $string -split ":::" 
+                     
                     
                     if ($out.Contains($parts[1])) {
-                        Write-Host "[DPS] Detected "$parts[0] -ForegroundColor Red
+                        $pukpart = ($out -split "!")[2]
+                        Write-Host "[DPS] Detected "$parts[0] "($($pukpart))" -ForegroundColor Red
                     }
                }
         }
@@ -32,15 +38,51 @@ if ($serviceStatus) {
         
 
     } else {
-        Write-Host "Service DPS stopped" -ForegroundColor Yellow
+        Write-Host "Service DPS disabled"
     }
 
 } else {
-    Write-Host "Service DPS stopped" -ForegroundColor Yellow
+    Write-Host "Service DPS disabled"
 }
 
 
 
+$serviceStatus = Get-Service -Name "DiagTrack" -ErrorAction SilentlyContinue
+
+if ($serviceStatus) {
+       
+    if ($serviceStatus.Status -eq 'Running') {
+            
+        $serviceProcess = Get-WmiObject Win32_Service | Where-Object { $_.Name -eq "DiagTrack" }
+        Write-Host "Service DiagTrack enabled. PID: $($serviceProcess.ProcessId)"
+
+        $output = (.\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String) -split "`n"
+        
+        foreach($out in $output) {
+               $filter = '^\\device\\harddiskvolume((?!.*\.(exe|dll)).)*\..*$'
+               if ([System.Text.RegularExpressions.Regex]::IsMatch($out, $filter)) {
+                    Write-Host "[DiagTrack] Detected modified extension: "$out -ForegroundColor Yellow
+               }
+
+               foreach($string in $dps) {
+                    $parts = $string -split ":::" 
+                     
+                    
+                    if ($out.Contains($parts[1])) {
+                        Write-Host "[DiagTrack] Detected "$parts[0] "($($out))" -ForegroundColor Red
+                    }
+               }
+        }
+
+        
+
+    } else {
+        Write-Host "Service DiagTrack disabled"
+    }
+
+} else {
+    Write-Host "Service DiagTrack disabled"
+}
 
 
 
@@ -53,7 +95,7 @@ if ($serviceStatus) {
         $serviceProcess = Get-WmiObject Win32_Service | Where-Object { $_.Name -eq "PcaSvc" }
         Write-Host "Service PcaSvc enabled. PID: $($serviceProcess.ProcessId)"
 
-        $output = .\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String
+        $output = (.\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String) -split "`n"
         
         foreach($out in $output) {
                foreach($string in $dps) {
@@ -68,11 +110,11 @@ if ($serviceStatus) {
         
 
     } else {
-        Write-Host "Service PcaSvc stopped" -ForegroundColor Yellow
+        Write-Host "Service PcaSvc disabled"
     }
 
 } else {
-    Write-Host "Service PcaSvc stopped" -ForegroundColor Yellow
+    Write-Host "Service PcaSvc disabled"
 }
     
 
