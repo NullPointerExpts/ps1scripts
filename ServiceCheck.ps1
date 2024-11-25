@@ -133,11 +133,12 @@ if ($serviceStatus) {
         Write-Host "Service PcaSvc enabled. PID: $($serviceProcess.ProcessId)"
 
         $output = (.\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String) -split "`n"
-        $filter = "^[A-z]:.+exe*$"
+        $filter = "^\\\?\?\\.+\.exe*$"
         $array = @()
         
         foreach($out in $output) {
             $line = $out.Trim()
+            $path = $line.Replace("\??\", "")
             if ([System.Text.RegularExpressions.Regex]::IsMatch($line, $filter)) {
                     if (Test-Path $line) {
                         $signature = Get-AuthenticodeSignature $line
