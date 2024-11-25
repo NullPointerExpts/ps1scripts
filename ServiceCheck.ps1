@@ -140,13 +140,13 @@ if ($serviceStatus) {
             $line = $out.Trim()
             $path = $line.Replace("\??\", "")
             if ([System.Text.RegularExpressions.Regex]::IsMatch($line, $filter)) {
-                    if (Test-Path $line) {
-                        $signature = Get-AuthenticodeSignature $line
+                    if (Test-Path $path) {
+                        $signature = Get-AuthenticodeSignature $path
             
                         if ($signature.Status -ne 'Valid') {
-                            if ($line -notin $array) {
-                                Write-Host "[PCA] Detected .exe with invalid signature: "$line -ForegroundColor Yellow
-                                $array += $line
+                            if ($path -notin $array) {
+                                Write-Host "[PCA] Detected .exe with invalid signature: "$path -ForegroundColor Yellow
+                                $array += $path
                             }
                         
                         }
