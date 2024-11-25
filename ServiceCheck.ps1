@@ -101,15 +101,17 @@ foreach($out in $output) {
             $path = $line.Replace("file:///", "").Replace("%20", " ")
             if (Test-Path $path) {
                 $signature = Get-AuthenticodeSignature $path
-                    
-            
-                if ($signature.Status -ne 'Valid') {
-                    if ($path -notin $array) {
-                        Write-Host "[Explorer] Detected .exe with invalid signature: "$path -ForegroundColor Yellow
-                        $array += $path
-                    }
-                        
+
+                if ($path -notin $array) {
+                       if ($signature.Status -ne 'Valid') {
+                            Write-Host "[Explorer] Detected .exe with invalid signature: "$path -ForegroundColor Yellow
+                            $array += $path
+                       } else {
+                            Write-Host "[Explorer] Valid signature: "$path -ForegroundColor Green
+                            $array += $path
+                       }
                 }
+                
             } else {
                 Write-Host "[Explorer] Detected deleted .exe: "$path -ForegroundColor DarkYellow
             }
@@ -143,13 +145,15 @@ if ($serviceStatus) {
                     if (Test-Path $path) {
                         $signature = Get-AuthenticodeSignature $path
             
-                        if ($signature.Status -ne 'Valid') {
-                            if ($path -notin $array) {
-                                Write-Host "[PCA] Detected .exe with invalid signature: "$path -ForegroundColor Yellow
-                                $array += $path
+                        if ($path -notin $array) {
+                              if ($signature.Status -ne 'Valid') {
+                                   Write-Host "[PCA] Detected .exe with invalid signature: "$path -ForegroundColor Yellow
+                                   $array += $path
+                              } else {
+                                   Write-Host "[PCA] Valid signature: "$path -ForegroundColor Green
+                                   $array += $path
+                              }
                             }
-                        
-                        }
                     } else {
                         Write-Host "[PCA] Detected deleted .exe: "$path -ForegroundColor DarkYellow
                     }   
