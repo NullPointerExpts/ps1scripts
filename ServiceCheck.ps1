@@ -151,7 +151,7 @@ if ($serviceStatus) {
                         
                         }
                     } else {
-                        Write-Host "[PCA] Detected deleted .exe: "$line -ForegroundColor DarkYellow
+                        Write-Host "[PCA] Detected deleted .exe: "$path -ForegroundColor DarkYellow
                     }   
                     
              }
