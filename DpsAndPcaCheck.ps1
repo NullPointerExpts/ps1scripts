@@ -88,7 +88,7 @@ if ($serviceStatus) {
         $output = (.\xxstrings64.exe -p $($serviceProcess.ProcessId) | Out-String) -split "`n"
         
         foreach($out in $output) {
-               foreach($string in $dps) {
+               foreach($string in $pca) {
                     $parts = $string -split ":::" 
                     
                     if ($out.Contains($parts[1])) {
