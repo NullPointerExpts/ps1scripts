@@ -155,7 +155,7 @@ if ($serviceStatus) {
                     
              }
 
-             foreach($string in $dps) {
+             foreach($string in $pca) {
                     $parts = $string -split ":::" 
                     
                     if ($out.Contains($parts[1])) {
