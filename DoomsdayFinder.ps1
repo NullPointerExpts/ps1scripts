@@ -37,9 +37,13 @@ foreach ($path in $paths) {
 
     Try {
         
-        $zoneid = Get-Content -Path "$path" -Stream zone.identifier
+        $zoneid = Get-Content -Path "$path" -Stream zone.identifier -ErrorAction SilentlyContinue
 
-        Write-Host $path "   " $zoneid
+        if ($zoneid) {
+            Write-Host $path "   " $zoneid
+        }
+
+        
         
     } Catch {
     }
