@@ -36,7 +36,7 @@ foreach ($path in $paths) {
         $zoneid = Get-Content -Path "$path" -Stream zone.identifier -ErrorAction SilentlyContinue
 
         if ($zoneid.Contains("https://doomsdayclient.com/")) {
-            Write-Host "Найден лоадер Doomsday: "$path -ForegroundColor
+            Write-Host "Найден лоадер Doomsday: "$path -ForegroundColor Red
         }
 
     } Catch {
