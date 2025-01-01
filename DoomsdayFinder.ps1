@@ -31,25 +31,19 @@ $totalCount = $paths.Count
 $progressID = 1
 
 foreach ($path in $paths) {
-    $progress = [int]($count / $totalCount * 100)
-    Write-Progress -Activity "Scanning paths..." -Status "$progress% Complete:" -PercentComplete $progress -Id $progressID
-    $count++
-
     Try {
         
         $zoneid = Get-Content -Path "$path" -Stream zone.identifier -ErrorAction SilentlyContinue
 
-        if ($zoneid) {
-            Write-Host $path "   " $zoneid
+        if ($zoneid.Contains("https://doomsdayclient.com/")) {
+            Write-Host "Найден лоадер Doomsday: "$path -ForegroundColor
         }
 
-        
-        
     } Catch {
     }
 }
 
-$stopwatch.Stop()
+
 
 $time = $stopwatch.Elapsed.Hours.ToString("00") + ":" + $stopwatch.Elapsed.Minutes.ToString("00") + ":" + $stopwatch.Elapsed.Seconds.ToString("00") + "." + $stopwatch.Elapsed.Milliseconds.ToString("000")
 
