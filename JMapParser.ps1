@@ -1,5 +1,3 @@
-﻿Clear-Host
-
 $jmap_path = Read-Host "Enter JMap path: "
 $minecraftpid = Read-Host "Enter Minecraft PID: "
 $result = @()
